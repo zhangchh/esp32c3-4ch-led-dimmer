@@ -1,0 +1,29 @@
+# --- Arduino IDE / 构建产物 ---
+build/
+*.elf
+*.hex
+*.bin
+*.map
+*.eep
+*.o
+*.a
+*.lst
+*.d
+
+# --- 主机端测试产物 (4ch_led_dimmer/test/) ---
+4ch_led_dimmer/test/sketch.cpp
+4ch_led_dimmer/test/test_v2
+4ch_led_dimmer/test/test_v3
+
+# --- IDE / 编辑器 ---
+.arduinoIDE/
+.vscode/
+.idea/
+*.bak
+*.tmp
+*~
+
+# --- 操作系统 ---
+.DS_Store
+Thumbs.db
+desktop.ini

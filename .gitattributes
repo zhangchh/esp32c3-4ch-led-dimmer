@@ -1,0 +1,8 @@
+# 统一以 LF 存储与检出：仓库里有 bash 测试脚本，CRLF 会让 WSL 下无法执行
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.ino text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.md text eol=lf

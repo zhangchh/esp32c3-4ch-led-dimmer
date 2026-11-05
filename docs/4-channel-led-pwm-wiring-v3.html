@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 路 LED 灯带 PWM 调光连线图</title>
+<style>
+  :root { color-scheme: light; --ink:#172033; --muted:#5b6475; --line:#d8deea; --bg:#f4f6fa; --card:#fff; --green:#07845f; --orange:#d97706; --blue:#2563eb; }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 "Segoe UI","Microsoft YaHei",sans-serif }
+  main { max-width:1500px; margin:0 auto; padding:28px 24px 40px }
+  h1 { margin:0 0 6px; font-size:28px; letter-spacing:.2px }
+  .sub { color:var(--muted); margin:0 0 20px }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:0 8px 28px #1720330c; overflow:auto }
+  svg { display:block; width:100%; min-width:1050px; height:auto }
+  .notes { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:16px }
+  .note { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px }
+  .note h2 { font-size:16px; margin:0 0 6px }
+  .note p { color:#394357; margin:0 }
+  .caution { border-left:4px solid #dc2626 }
+  .small { color:var(--muted); font-size:13px; margin-top:14px }
+  @media(max-width:760px) { main{padding:18px 12px}.notes{grid-template-columns:1fr}h1{font-size:23px} }
+</style>
+</head>
+<body>
+<main>
+  <h1>4 路 LED 灯带 PWM 调光连线图</h1>
+  <p class="sub">ESP32-C3 USB 独立供电｜U6/U7：UCC27524 SOIC-8 ×2｜IRLZ44N 直插 MOSFET ×4｜下方附 U6/U7 逐脚实际连线图</p>
+  <section class="panel" aria-label="电路连线图">
+  <svg viewBox="0 0 1440 1300" role="img" aria-labelledby="svgtitle svgdesc" xmlns="http://www.w3.org/2000/svg">
+    <title id="svgtitle">四路电位器控制 LED 灯带 PWM 连线图</title>
+    <desc id="svgdesc">四个电位器分别接 ESP32-C3 ADC，四个 GPIO 驱动两颗 UCC27524 双路栅极驱动器，再经 47 欧电阻驱动 IRLZ44N 栅极；MOSFET 源极直连共地，漏极接各路灯带负极，灯带正极接 12 伏。</desc>
+    <defs>
+      <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#edf0f5" stroke-width="1"/></pattern>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#07845f"/></marker>
+      <style>
+        .wire{fill:none;stroke:#07845f;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+        .sig{fill:none;stroke:#2563eb;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+        .pwr{fill:none;stroke:#d97706;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+        .gnd{fill:none;stroke:#475569;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+        .box{fill:#fff;stroke:#bfc8d8;stroke-width:1.5}
+        .title{font:700 18px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#172033}
+        .label{font:600 14px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#253047}
+        .tiny{font:12px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#586174}
+        .pin{font:600 12px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#253047}
+        .dot{fill:#07845f}
+      </style>
+    </defs>
+    <rect width="1440" height="1300" fill="#fff"/><rect width="1440" height="1300" fill="url(#grid)"/>
+
+    <!-- column headings -->
+    <text x="55" y="46" class="title">亮度输入：10 kΩ 电位器 × 4</text>
+    <text x="500" y="46" class="title">控制器：ESP32-C3 SuperMini</text>
+    <text x="820" y="46" class="title">栅极驱动：UCC27524 SOIC-8 ×2</text>
+    <text x="1240" y="46" class="title">12 V 灯带</text>
+
+    <!-- MCU -->
+    <rect x="500" y="90" width="300" height="700" rx="18" fill="#eef4ff" stroke="#9bb8ef" stroke-width="2"/>
+    <text x="650" y="126" text-anchor="middle" class="title">ESP32-C3 SuperMini</text>
+    <text x="650" y="151" text-anchor="middle" class="tiny">ADC 读取旋钮；LEDC 输出 PWM</text>
+    <text x="525" y="190" class="pin">ADC GPIO0</text><text x="525" y="340" class="pin">ADC GPIO1</text>
+    <text x="525" y="490" class="pin">ADC GPIO3</text><text x="525" y="640" class="pin">ADC GPIO4</text>
+    <text x="731" y="190" class="pin">PWM GPIO21</text><text x="731" y="340" class="pin">PWM GPIO7</text>
+    <text x="731" y="490" class="pin">PWM GPIO6</text><text x="731" y="640" class="pin">PWM GPIO5</text>
+    <circle cx="500" cy="185" r="5" class="dot"/><circle cx="500" cy="335" r="5" class="dot"/>
+    <circle cx="500" cy="485" r="5" class="dot"/><circle cx="500" cy="635" r="5" class="dot"/>
+    <circle cx="800" cy="185" r="5" class="dot"/><circle cx="800" cy="335" r="5" class="dot"/>
+    <circle cx="800" cy="485" r="5" class="dot"/><circle cx="800" cy="635" r="5" class="dot"/>
+    <text x="650" y="735" text-anchor="middle" class="label">开发板 GND 必须与 12 V 电源负极共地</text>
+    <text x="650" y="762" text-anchor="middle" class="tiny">开发板由 USB 或合适的稳压电源供电；不可把 12 V 接到 3V3</text>
+
+    <!-- 12V bus -->
+    <path d="M1325 115V790" class="pwr"/>
+    <text x="1325" y="91" text-anchor="middle" class="label" fill="#b45309">+12 V 母线</text>
+
+    <!-- Channel rows -->
+    <g id="ch1">
+      <text x="26" y="194" class="label">CH1</text>
+      <rect x="65" y="158" width="235" height="58" rx="10" class="box"/>
+      <text x="82" y="181" class="label">电位器 1</text><text x="82" y="202" class="tiny">一端 3V3｜另一端 GND｜中间端 wiper</text>
+      <path d="M300 187H500" class="sig"/><text x="360" y="177" class="tiny">wiper → GPIO0</text>
+      <circle cx="420" cy="187" r="4" class="dot"/><path d="M420 187V211m-11 0h22m-22 7h22m-11 0v13m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><text x="449" y="214" class="tiny">C1 100 nF</text>
+      <path d="M300 204V222H326" class="gnd"/><path d="M326 222v10m-10 0h20m-17 5h14m-10 5h6" class="gnd"/>
+      <path d="M800 185H820" class="wire"/><rect x="820" y="163" width="80" height="44" rx="7" fill="#eef4ff" stroke="#6386c5" stroke-width="1.5"/><text x="860" y="180" text-anchor="middle" class="tiny">U6 A</text><text x="860" y="196" text-anchor="middle" class="tiny">IN2 → OUT7</text><path d="M900 185H912" class="wire"/><rect x="912" y="173" width="72" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="2"/><text x="948" y="190" text-anchor="middle" class="tiny">47 Ω</text><path d="M984 185H988" class="wire"/>
+      <circle cx="988" cy="185" r="4" class="dot"/><path d="M988 185V228" class="wire"/>
+      <rect x="958" y="228" width="60" height="24" rx="4" fill="#fff" stroke="#64748b" stroke-width="1.5"/><text x="988" y="245" text-anchor="middle" class="tiny">100 kΩ</text><path d="M988 252V270m-12 0h24m-20 6h16m-12 6h8" class="gnd"/>
+      <path d="M988 185H1050" class="wire"/><rect x="1050" y="158" width="104" height="66" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="2"/><text x="1102" y="185" text-anchor="middle" class="label">Q1</text><text x="1102" y="205" text-anchor="middle" class="tiny">IRLZ44N</text>
+      <text x="1056" y="178" class="tiny">G</text><text x="1140" y="171" class="tiny">D</text><text x="1094" y="240" class="tiny">S</text>
+      <path d="M1102 224V270m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><path d="M1154 178H1180V204H1200" class="wire"/><path d="M1306 178H1325" class="pwr"/>
+      <rect x="1200" y="165" width="106" height="52" rx="8" fill="#fff7ed" stroke="#e8a24a" stroke-width="1.5"/><text x="1253" y="187" text-anchor="middle" class="label">LED 灯带 1</text><text x="1253" y="205" text-anchor="middle" class="tiny">+12 V｜− 接 D</text>
+    </g>
+    <g id="ch2">
+      <text x="26" y="344" class="label">CH2</text>
+      <rect x="65" y="308" width="235" height="58" rx="10" class="box"/><text x="82" y="331" class="label">电位器 2</text><text x="82" y="352" class="tiny">一端 3V3｜另一端 GND｜中间端 wiper</text>
+      <path d="M300 337H500" class="sig"/><text x="360" y="327" class="tiny">wiper → GPIO1</text>
+      <circle cx="420" cy="337" r="4" class="dot"/><path d="M420 337V361m-11 0h22m-22 7h22m-11 0v13m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><text x="449" y="364" class="tiny">C2 100 nF</text>
+      <path d="M300 354V372H326" class="gnd"/><path d="M326 372v10m-10 0h20m-17 5h14m-10 5h6" class="gnd"/>
+      <path d="M800 335H820" class="wire"/><rect x="820" y="313" width="80" height="44" rx="7" fill="#eef4ff" stroke="#6386c5" stroke-width="1.5"/><text x="860" y="330" text-anchor="middle" class="tiny">U6 B</text><text x="860" y="346" text-anchor="middle" class="tiny">IN4 → OUT5</text><path d="M900 335H912" class="wire"/><rect x="912" y="323" width="72" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="2"/><text x="948" y="340" text-anchor="middle" class="tiny">47 Ω</text><path d="M984 335H988" class="wire"/><circle cx="988" cy="335" r="4" class="dot"/><path d="M988 335V378" class="wire"/><rect x="958" y="378" width="60" height="24" rx="4" fill="#fff" stroke="#64748b" stroke-width="1.5"/><text x="988" y="395" text-anchor="middle" class="tiny">100 kΩ</text><path d="M988 402V420m-12 0h24m-20 6h16m-12 6h8" class="gnd"/>
+      <path d="M988 335H1050" class="wire"/><rect x="1050" y="308" width="104" height="66" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="2"/><text x="1102" y="335" text-anchor="middle" class="label">Q2</text><text x="1102" y="355" text-anchor="middle" class="tiny">IRLZ44N</text><text x="1056" y="328" class="tiny">G</text><text x="1140" y="321" class="tiny">D</text><text x="1094" y="390" class="tiny">S</text><path d="M1102 374V420m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><path d="M1154 328H1180V354H1200" class="wire"/><path d="M1306 328H1325" class="pwr"/><rect x="1200" y="315" width="106" height="52" rx="8" fill="#fff7ed" stroke="#e8a24a" stroke-width="1.5"/><text x="1253" y="337" text-anchor="middle" class="label">LED 灯带 2</text><text x="1253" y="355" text-anchor="middle" class="tiny">+12 V｜− 接 D</text>
+    </g>
+    <g id="ch3">
+      <text x="26" y="494" class="label">CH3</text>
+      <rect x="65" y="458" width="235" height="58" rx="10" class="box"/><text x="82" y="481" class="label">电位器 3</text><text x="82" y="502" class="tiny">一端 3V3｜另一端 GND｜中间端 wiper</text>
+      <path d="M300 487H500" class="sig"/><text x="360" y="477" class="tiny">wiper → GPIO3</text>
+      <circle cx="420" cy="487" r="4" class="dot"/><path d="M420 487V511m-11 0h22m-22 7h22m-11 0v13m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><text x="449" y="514" class="tiny">C3 100 nF</text>
+      <path d="M300 504V522H326" class="gnd"/><path d="M326 522v10m-10 0h20m-17 5h14m-10 5h6" class="gnd"/>
+      <path d="M800 485H820" class="wire"/><rect x="820" y="463" width="80" height="44" rx="7" fill="#eef4ff" stroke="#6386c5" stroke-width="1.5"/><text x="860" y="480" text-anchor="middle" class="tiny">U7 A</text><text x="860" y="496" text-anchor="middle" class="tiny">IN2 → OUT7</text><path d="M900 485H912" class="wire"/><rect x="912" y="473" width="72" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="2"/><text x="948" y="490" text-anchor="middle" class="tiny">47 Ω</text><path d="M984 485H988" class="wire"/><circle cx="988" cy="485" r="4" class="dot"/><path d="M988 485V528" class="wire"/><rect x="958" y="528" width="60" height="24" rx="4" fill="#fff" stroke="#64748b" stroke-width="1.5"/><text x="988" y="545" text-anchor="middle" class="tiny">100 kΩ</text><path d="M988 552V570m-12 0h24m-20 6h16m-12 6h8" class="gnd"/>
+      <path d="M988 485H1050" class="wire"/><rect x="1050" y="458" width="104" height="66" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="2"/><text x="1102" y="485" text-anchor="middle" class="label">Q3</text><text x="1102" y="505" text-anchor="middle" class="tiny">IRLZ44N</text><text x="1056" y="478" class="tiny">G</text><text x="1140" y="471" class="tiny">D</text><text x="1094" y="540" class="tiny">S</text><path d="M1102 524V570m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><path d="M1154 478H1180V504H1200" class="wire"/><path d="M1306 478H1325" class="pwr"/><rect x="1200" y="465" width="106" height="52" rx="8" fill="#fff7ed" stroke="#e8a24a" stroke-width="1.5"/><text x="1253" y="487" text-anchor="middle" class="label">LED 灯带 3</text><text x="1253" y="505" text-anchor="middle" class="tiny">+12 V｜− 接 D</text>
+    </g>
+    <g id="ch4">
+      <text x="26" y="644" class="label">CH4</text>
+      <rect x="65" y="608" width="235" height="58" rx="10" class="box"/><text x="82" y="631" class="label">电位器 4</text><text x="82" y="652" class="tiny">一端 3V3｜另一端 GND｜中间端 wiper</text>
+      <path d="M300 637H500" class="sig"/><text x="360" y="627" class="tiny">wiper → GPIO4</text>
+      <circle cx="420" cy="637" r="4" class="dot"/><path d="M420 637V661m-11 0h22m-22 7h22m-11 0v13m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><text x="449" y="664" class="tiny">C4 100 nF</text>
+      <path d="M300 654V672H326" class="gnd"/><path d="M326 672v10m-10 0h20m-17 5h14m-10 5h6" class="gnd"/>
+      <path d="M800 635H820" class="wire"/><rect x="820" y="613" width="80" height="44" rx="7" fill="#eef4ff" stroke="#6386c5" stroke-width="1.5"/><text x="860" y="630" text-anchor="middle" class="tiny">U7 B</text><text x="860" y="646" text-anchor="middle" class="tiny">IN4 → OUT5</text><path d="M900 635H912" class="wire"/><rect x="912" y="623" width="72" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="2"/><text x="948" y="640" text-anchor="middle" class="tiny">47 Ω</text><path d="M984 635H988" class="wire"/><circle cx="988" cy="635" r="4" class="dot"/><path d="M988 635V678" class="wire"/><rect x="958" y="678" width="60" height="24" rx="4" fill="#fff" stroke="#64748b" stroke-width="1.5"/><text x="988" y="695" text-anchor="middle" class="tiny">100 kΩ</text><path d="M988 702V720m-12 0h24m-20 6h16m-12 6h8" class="gnd"/>
+      <path d="M988 635H1050" class="wire"/><rect x="1050" y="608" width="104" height="66" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="2"/><text x="1102" y="635" text-anchor="middle" class="label">Q4</text><text x="1102" y="655" text-anchor="middle" class="tiny">IRLZ44N</text><text x="1056" y="628" class="tiny">G</text><text x="1140" y="621" class="tiny">D</text><text x="1094" y="690" class="tiny">S</text><path d="M1102 674V720m-12 0h24m-20 6h16m-12 6h8" class="gnd"/><path d="M1154 628H1180V654H1200" class="wire"/><path d="M1306 628H1325" class="pwr"/><rect x="1200" y="615" width="106" height="52" rx="8" fill="#fff7ed" stroke="#e8a24a" stroke-width="1.5"/><text x="1253" y="637" text-anchor="middle" class="label">LED 灯带 4</text><text x="1253" y="655" text-anchor="middle" class="tiny">+12 V｜− 接 D</text>
+    </g>
+    <text x="925" y="775" class="label">UCC27524 供电与接法</text>
+    <text x="925" y="798" class="tiny">U6/U7：VDD pin 6 接稳压 +12 V；GND pin 3 共地</text>
+    <text x="925" y="819" class="tiny">pin 2→7 为 A 路、pin 4→5 为 B 路；pin 1/8 使能接 VDD 或悬空</text>
+
+    <!-- legend -->
+    <path d="M55 795H110" class="sig"/><text x="120" y="800" class="tiny">ADC 模拟信号</text>
+    <path d="M230 795H285" class="wire"/><text x="295" y="800" class="tiny">PWM / 漏极回路</text>
+    <path d="M420 795H475" class="pwr"/><text x="485" y="800" class="tiny">+12 V</text>
+    <path d="M55 835H110" class="gnd"/><text x="120" y="840" class="tiny">GND 共地</text>
+    <text x="55" y="885" class="tiny">图示为功能连线示意；实际封装脚号请按 ESP32-C3 SuperMini、MOSFET 和连接器的数据手册/实物丝印复核。</text>
+
+    <!-- Full pin-level wiring for the two dual gate-driver ICs -->
+    <rect x="35" y="930" width="1370" height="345" rx="14" fill="#f8fafc" stroke="#aeb9ca" stroke-width="1.5"/>
+    <text x="55" y="960" class="title">U6 / U7 芯片逐脚接线（SOIC-8 顶视图）</text>
+    <text x="55" y="983" class="tiny">图中 +12 V 与 GND 标记分别表示同名网络；每颗驱动器旁的 Cx 电容均跨接在 VDD 与 GND 之间。</text>
+
+    <!-- U6, pin-level schematic -->
+    <rect x="55" y="1000" width="645" height="255" rx="10" fill="#fff" stroke="#c7d0dd" stroke-width="1.2"/>
+    <text x="75" y="1025" class="label">U6：驱动 Q1 / Q2</text>
+    <rect x="300" y="1035" width="150" height="160" rx="8" fill="#eef4ff" stroke="#6386c5" stroke-width="2"/>
+    <path d="M365 1035v-10a10 10 0 0 0 20 0v10" fill="none" stroke="#6386c5" stroke-width="2"/>
+    <text x="375" y="1110" text-anchor="middle" class="label">U6</text><text x="375" y="1132" text-anchor="middle" class="tiny">UCC27524</text>
+    <!-- left pins 1-4 -->
+    <path d="M240 1050H300" class="pwr"/><text x="72" y="1055" class="pin">1 ENA → +12 V（使能）</text>
+    <path d="M240 1085H300" class="wire"/><text x="72" y="1090" class="pin">2 INA ← GPIO21</text>
+    <path d="M240 1130H300" class="gnd"/><text x="72" y="1135" class="pin">3 GND → 共地</text>
+    <path d="M240 1175H300" class="wire"/><text x="72" y="1180" class="pin">4 INB ← GPIO7</text>
+    <!-- right pins 8-5 -->
+    <path d="M450 1050H510" class="pwr"/><text x="520" y="1055" class="pin">8 ENB → +12 V（使能）</text>
+    <path d="M450 1085H480" class="wire"/><rect x="480" y="1073" width="58" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="1.8"/><text x="509" y="1090" text-anchor="middle" class="tiny">R1 47 Ω</text><path d="M538 1085H552" class="wire"/><text x="560" y="1090" class="pin">7 OUTA → Q1 G</text>
+    <path d="M450 1130H510" class="pwr"/><text x="520" y="1135" class="pin">6 VDD → +12 V</text>
+    <path d="M450 1175H480" class="wire"/><rect x="480" y="1163" width="58" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="1.8"/><text x="509" y="1180" text-anchor="middle" class="tiny">R2 47 Ω</text><path d="M538 1175H552" class="wire"/><text x="560" y="1180" class="pin">5 OUTB → Q2 G</text>
+    <!-- U6 local bypass capacitors across power nets -->
+    <path d="M310 1210H445" class="pwr"/><path d="M310 1240H445" class="gnd"/>
+    <path d="M340 1210V1218m-10 0h20m-20 6h20m-10 0v16" class="gnd"/><text x="340" y="1252" text-anchor="middle" class="tiny">C13 100 nF</text>
+    <path d="M410 1210V1218m-10 0h20m-20 6h20m-10 0v16" class="gnd"/><text x="410" y="1252" text-anchor="middle" class="tiny">C14 4.7 µF</text>
+
+    <!-- U7, pin-level schematic -->
+    <rect x="740" y="1000" width="645" height="255" rx="10" fill="#fff" stroke="#c7d0dd" stroke-width="1.2"/>
+    <text x="760" y="1025" class="label">U7：驱动 Q3 / Q4</text>
+    <rect x="985" y="1035" width="150" height="160" rx="8" fill="#eef4ff" stroke="#6386c5" stroke-width="2"/>
+    <path d="M1050 1035v-10a10 10 0 0 0 20 0v10" fill="none" stroke="#6386c5" stroke-width="2"/>
+    <text x="1060" y="1110" text-anchor="middle" class="label">U7</text><text x="1060" y="1132" text-anchor="middle" class="tiny">UCC27524</text>
+    <path d="M925 1050H985" class="pwr"/><text x="758" y="1055" class="pin">1 ENA → +12 V（使能）</text>
+    <path d="M925 1085H985" class="wire"/><text x="758" y="1090" class="pin">2 INA ← GPIO6</text>
+    <path d="M925 1130H985" class="gnd"/><text x="758" y="1135" class="pin">3 GND → 共地</text>
+    <path d="M925 1175H985" class="wire"/><text x="758" y="1180" class="pin">4 INB ← GPIO5</text>
+    <path d="M1135 1050H1195" class="pwr"/><text x="1205" y="1055" class="pin">8 ENB → +12 V（使能）</text>
+    <path d="M1135 1085H1165" class="wire"/><rect x="1165" y="1073" width="58" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="1.8"/><text x="1194" y="1090" text-anchor="middle" class="tiny">R3 47 Ω</text><path d="M1223 1085H1237" class="wire"/><text x="1245" y="1090" class="pin">7 OUTA → Q3 G</text>
+    <path d="M1135 1130H1195" class="pwr"/><text x="1205" y="1135" class="pin">6 VDD → +12 V</text>
+    <path d="M1135 1175H1165" class="wire"/><rect x="1165" y="1163" width="58" height="24" rx="4" fill="#fff7ed" stroke="#d97706" stroke-width="1.8"/><text x="1194" y="1180" text-anchor="middle" class="tiny">R4 47 Ω</text><path d="M1223 1175H1237" class="wire"/><text x="1245" y="1180" class="pin">5 OUTB → Q4 G</text>
+    <path d="M995 1210H1130" class="pwr"/><path d="M995 1240H1130" class="gnd"/>
+    <path d="M1025 1210V1218m-10 0h20m-20 6h20m-10 0v16" class="gnd"/><text x="1025" y="1252" text-anchor="middle" class="tiny">C15 100 nF</text>
+    <path d="M1095 1210V1218m-10 0h20m-20 6h20m-10 0v16" class="gnd"/><text x="1095" y="1252" text-anchor="middle" class="tiny">C16 4.7 µF</text>
+  </svg>
+  </section>
+  <section class="notes">
+    <article class="note caution"><h2>关键改动</h2><p>源极直连 GND；删除原图 C5–C8。移除跨在 +12 V 与漏极输出之间的 C9–C12。若实测有尖峰，再按波形设计吸收网络。</p></article>
+    <article class="note"><h2>U6/U7 引脚与作用</h2><p>UCC27524 是双路、非反相 MOSFET 栅极驱动器（SOIC-8）。每颗负责两路：pin 2 INA → pin 7 OUTA；pin 4 INB → pin 5 OUTB。pin 6 接稳压 +12 V，pin 3 接共地；pin 1 ENA、pin 8 ENB 为高电平使能，直接接 pin 6，或悬空（内部上拉）。每颗在 pin 6 与 pin 3 旁放 100 nF 和 4.7 µF 去耦。它把 3.3 V PWM 转为栅极驱动，不承载灯带电流；其输入可在 VDD 未上电时承受 3.3 V。</p></article>
+    <article class="note"><h2>电位器与 ADC</h2><p>每路建议约 10 kΩ。ESP32-C3 ADC 最高衰减档有效范围约至 2.5 V；3.3 V 电位器可能在旋钮顶端提前饱和，可限制 wiper 电压或用软件校准饱和值。</p></article>
+    <article class="note"><h2>电源与器件</h2><p>ESP32-C3 由开发板 USB 单独供电，无需从灯带 12 V 再降压；USB 地仍须与 12 V 电源负极共地。直插 IRLZ44N 由 UCC27524 输出约 12 V 栅压驱动，须避免超过其 ±16 V 栅源额定值。每米灯带约 0.83 A，按实际长度核算散热、电源和线径。</p></article>
+  </section>
+  <p class="small">假设：四路为互相独立的 12 V 单色两线灯带。若灯带是 RGB、可寻址灯带，或不是 12 V 恒压型，功率级和接线需另行调整。</p>
+</main>
+</body>
+</html>

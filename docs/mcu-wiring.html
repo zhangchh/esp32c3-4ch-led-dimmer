@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LED-CTL 4CH · MCU 版本接线示意图（ESP32-C3）</title>
+<style>
+  :root{--bg:#0f1419;--card:#161d26;--line:#243040;--txt:#dbe4ee;--dim:#7b8a9c}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+       font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;line-height:1.65}
+  header{padding:26px 32px 14px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  .sub{color:var(--dim);font-size:14px}
+  main{max-width:1440px;margin:0 auto;padding:22px 32px 60px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:20px}
+  h2{margin:0 0 14px;font-size:16px;color:#9fd3ff;font-weight:600}
+  h3{margin:18px 0 8px;font-size:14px;color:#8fb6d9}
+  .schema{overflow:auto;border-radius:10px;background:#0b0f14;border:1px solid var(--line)}
+  svg{display:block;width:100%;min-width:1280px;height:auto}
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{color:#8fb6d9;font-weight:600;white-space:nowrap}
+  tbody tr:hover{background:#1b2431}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+  .pill{display:inline-block;padding:1px 9px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:2px 0 14px;font-size:13px}
+  .legend span{display:flex;align-items:center}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:18px}
+  .kv{color:var(--dim)}
+  pre{background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow:auto;font-size:12.5px;line-height:1.5;color:#cfe0f0}
+  code{background:#0b0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;color:#a8d8ff}
+  .tip{border-left:3px solid #f59f00;padding:8px 0 8px 14px;margin:12px 0;color:#ffd8a8}
+  .ok{border-left:3px solid #37d67a;padding:8px 0 8px 14px;margin:12px 0;color:#b6f0cf}
+</style>
+</head>
+<body>
+<header>
+  <h1>LED-CTL 4CH · MCU 版本接线示意图（ESP32-C3-SuperMini）</h1>
+  <div class="sub">12 V 恒压 · 10 W·m⁻¹ 灯带 ≤1 m（≈0.83 A）· 4 路独立 PWM · 恒频 4 kHz · 软件 gamma · 可选 WiFi 调光</div>
+</header>
+<main>
+<div class="card">
+  <h2>接线示意图（把鼠标移到下方表格的任意一行，可高亮对应网络）</h2>
+  <div class="legend" id="legend"></div>
+  <div class="schema">
+<svg id="sch" viewBox="0 0 1400 950" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .net{transition:opacity .12s}
+  .wire{stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .term{fill:none;stroke:#33465c;stroke-width:1.7}
+  .body{fill:#131b25;stroke:#42576e;stroke-width:1.8}
+  .t{fill:#d3e2f2;font-size:12px}
+  .ts{fill:#8ea6bd;font-size:11px}
+  .tv{fill:#7fb3e8;font-size:11.5px}
+  .dev{fill:#0e1a12;stroke:#2f6b4f;stroke-width:2}
+</style>
+  <g id="p12a" class="net" data-net="12V">
+    <rect class="body" x="40" y="40" width="40" height="60"/>
+    <line class="term" x1="80" y1="55" x2="100" y2="55"/><circle cx="100" cy="55" r="3" fill="#33465c"/>
+    <line class="term" x1="80" y1="85" x2="100" y2="85"/><circle cx="100" cy="85" r="3" fill="#33465c"/>
+    <text class="ts" x="60" y="32" text-anchor="middle">J_IN</text>
+    <rect class="body" x="120" y="45" width="66" height="24"/>
+    <text class="ts" x="153" y="37" text-anchor="middle">F1 3A</text>
+    <path class="wire" stroke="#ff6b6b" d="M100 55 H110"/>
+    <path class="wire" stroke="#ff6b6b" d="M186 55 H260"/>
+    <path class="wire" stroke="#ff6b6b" d="M230 55 V70"/>
+    <line class="term" x1="219" y1="70" x2="241" y2="70"/>
+    <line class="term" x1="221" y1="86" x2="239" y2="86"/>
+    <path class="wire" stroke="#ff6b6b" d="M230 86 V104"/>
+    <text class="tv" x="248" y="82">470µF</text>
+    <circle cx="260" cy="55" r="3.6" fill="#ff6b6b"/>
+    <text x="270" y="59" style="fill:#ff6b6b" font-size="13" font-weight="700">12V</text>
+  </g>
+  <g id="pg0" class="net" data-net="GND">
+    <path class="wire" stroke="#9aa7b4" d="M100 85 H130 V112"/>
+    <line x1="117" y1="112" x2="143" y2="112" stroke="#9aa7b4" stroke-width="2.2"/>
+    <line x1="121" y1="117" x2="139" y2="117" stroke="#9aa7b4" stroke-width="2.2"/>
+    <line x1="126" y1="122" x2="134" y2="122" stroke="#9aa7b4" stroke-width="2.2"/>
+    <path class="wire" stroke="#9aa7b4" d="M230 104 V118"/>
+    <line x1="217" y1="118" x2="253" y2="118" stroke="#9aa7b4" stroke-width="2.2"/>
+    <line x1="221" y1="123" x2="249" y2="123" stroke="#9aa7b4" stroke-width="2.2"/>
+    <line x1="226" y1="128" x2="244" y2="128" stroke="#9aa7b4" stroke-width="2.2"/>
+  </g>
+
+  <g id="mcu">
+    <rect class="dev" x="430" y="130" width="300" height="700" rx="6"/>
+    <text x="580" y="156" text-anchor="middle" style="fill:#7ee2b8" font-size="15" font-weight="700">ESP32-C3-SuperMini</text>
+    <text class="ts" x="580" y="174" text-anchor="middle">USB-C 供电 · 3V3 · GND · WiFi/BLE</text>
+    <line x1="430" y1="190" x2="730" y2="190" stroke="#2f6b4f" stroke-width="1" stroke-dasharray="4 4"/>
+    <text class="ts" x="580" y="800" text-anchor="middle">开发板自带 3.3V LDO</text>
+    <text class="ts" x="580" y="814" text-anchor="middle" style="fill:#ff9a9a">5V 引脚严禁接 12V</text>
+    <line class="term" x1="430" y1="220" x2="410" y2="220"/><circle cx="410" cy="220" r="3" fill="#33465c"/>
+    <line class="term" x1="430" y1="400" x2="410" y2="400"/><circle cx="410" cy="400" r="3" fill="#33465c"/>
+    <line class="term" x1="430" y1="580" x2="410" y2="580"/><circle cx="410" cy="580" r="3" fill="#33465c"/>
+    <line class="term" x1="430" y1="760" x2="410" y2="760"/><circle cx="410" cy="760" r="3" fill="#33465c"/>
+    <text class="t" x="444" y="224">IO0 · ADC1_CH0</text>
+    <text class="t" x="444" y="404">IO1 · ADC1_CH1</text>
+    <text class="t" x="444" y="584">IO3 · ADC1_CH3</text>
+    <text class="t" x="444" y="764">IO4 · ADC1_CH4</text>
+    <text class="ts" x="444" y="240" style="fill:#5f8f74">&#8592; 电位器 1</text>
+    <text class="ts" x="444" y="420" style="fill:#5f8f74">&#8592; 电位器 2</text>
+    <text class="ts" x="444" y="600" style="fill:#5f8f74">&#8592; 电位器 3</text>
+    <text class="ts" x="444" y="780" style="fill:#5f8f74">&#8592; 电位器 4</text>
+    <line class="term" x1="730" y1="220" x2="750" y2="220"/><circle cx="750" cy="220" r="3" fill="#33465c"/>
+    <line class="term" x1="730" y1="400" x2="750" y2="400"/><circle cx="750" cy="400" r="3" fill="#33465c"/>
+    <line class="term" x1="730" y1="580" x2="750" y2="580"/><circle cx="750" cy="580" r="3" fill="#33465c"/>
+    <line class="term" x1="730" y1="760" x2="750" y2="760"/><circle cx="750" cy="760" r="3" fill="#33465c"/>
+    <text class="t" x="716" y="224" text-anchor="end">IO5</text>
+    <text class="t" x="716" y="404" text-anchor="end">IO6</text>
+    <text class="t" x="716" y="584" text-anchor="end">IO7</text>
+    <text class="t" x="716" y="764" text-anchor="end">IO10</text>
+    <text class="ts" x="716" y="240" text-anchor="end" style="fill:#5f8f74">&#8594; 通道 1 PWM</text>
+    <text class="ts" x="716" y="420" text-anchor="end" style="fill:#5f8f74">&#8594; 通道 2 PWM</text>
+    <text class="ts" x="716" y="600" text-anchor="end" style="fill:#5f8f74">&#8594; 通道 3 PWM</text>
+    <text class="ts" x="716" y="780" text-anchor="end" style="fill:#5f8f74">&#8594; 通道 4 PWM</text>
+    <line class="term" x1="490" y1="830" x2="490" y2="806"/><circle cx="490" cy="830" r="3" fill="#33465c"/>
+    <text class="ts" x="490" y="846" text-anchor="middle">GND（必须与 12V 共地）</text>
+    <line class="term" x1="670" y1="830" x2="670" y2="806"/><circle cx="670" cy="830" r="3" fill="#33465c"/>
+    <text class="ts" x="670" y="846" text-anchor="middle">5V / USB-C</text>
+  </g>
+  <g id="pg1" class="net" data-net="GND">
+    <path class="wire" stroke="#9aa7b4" d="M490 830 V856"/>
+    <line x1="477" y1="856" x2="503" y2="856" stroke="#9aa7b4" stroke-width="2.2"/>
+    <line x1="481" y1="861" x2="499" y2="861" stroke="#9aa7b4" stroke-width="2.2"/>
+    <line x1="486" y1="866" x2="494" y2="866" stroke="#9aa7b4" stroke-width="2.2"/>
+  </g>
+
+  <g id="ch1">
+    <g id="adc1" class="net" data-net="ADC1">
+      <rect class="body" x="150" y="196" width="26" height="48"/>
+      <line class="term" x1="163" y1="196" x2="163" y2="174"/><circle cx="163" cy="174" r="3" fill="#33465c"/>
+      <text x="163" y="164" text-anchor="middle" style="fill:#7fb3e8" font-size="12" font-weight="700">3V3</text>
+      <line class="term" x1="163" y1="244" x2="163" y2="266"/><circle cx="163" cy="266" r="3" fill="#33465c"/>
+      <line class="term" x1="204" y1="220" x2="176" y2="220"/><circle cx="204" cy="220" r="3" fill="#33465c"/>
+      <path d="M188 212 L176 220 L188 228 Z" fill="none" stroke="#8ea6bd" stroke-width="1.6"/>
+      <text class="ts" x="196" y="162">P1 10kΩ 线性</text>
+      <path class="wire" stroke="#4dabf7" d="M204 220 H430"/>
+      <path class="wire" stroke="#4dabf7" d="M410 220 V236"/>
+      <line class="term" x1="400" y1="236" x2="420" y2="236"/>
+      <line class="term" x1="400" y1="250" x2="420" y2="250"/>
+      <path class="wire" stroke="#4dabf7" d="M410 250 V266"/>
+      <text class="ts" x="424" y="248">100nF</text>
+    </g>
+    <g id="gnd1a" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M163 266 V280"/>
+      <path class="wire" stroke="#9aa7b4" d="M163 280 V284"/>
+<line x1="150" y1="284" x2="176" y2="284" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="154" y1="289" x2="172" y2="289" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="158" y1="294" x2="168" y2="294" stroke="#9aa7b4" stroke-width="2.2"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 266 V280"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 280 V284"/>
+<line x1="397" y1="284" x2="423" y2="284" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="401" y1="289" x2="419" y2="289" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="405" y1="294" x2="415" y2="294" stroke="#9aa7b4" stroke-width="2.2"/>
+    </g>
+    <g id="pwm1" class="net" data-net="PWM1">
+      <path class="wire" stroke="#38d9a9" d="M752 220 H790"/>
+      <rect class="body" x="790" y="208" width="64" height="24"/>
+      <text class="ts" x="822" y="200" text-anchor="middle">220Ω</text>
+      <path class="wire" stroke="#38d9a9" d="M854 220 H880"/>
+      <circle cx="867" cy="220" r="4" fill="#38d9a9"/>
+    </g>
+    <g id="fet1" class="net" data-net="PWM1">
+      <rect class="body" x="880" y="180" width="70" height="80" rx="3"/>
+      <text class="ts" x="915" y="206" text-anchor="middle" font-size="10.5">Q1</text>
+      <text class="ts" x="915" y="218" text-anchor="middle" font-size="8.5">IRLZ44N</text>
+      <text class="ts" x="874" y="212" style="fill:#38d9a9" font-size="11">G</text>
+    </g>
+    <g id="gnd1b" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M867 220 V244"/>
+      <rect class="body" x="858" y="244" width="18" height="40"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 284 V298"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 298 V302"/>
+<line x1="854" y1="302" x2="880" y2="302" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="858" y1="307" x2="876" y2="307" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="862" y1="312" x2="872" y2="312" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="852" y="262" text-anchor="end">100kΩ</text>
+      <text class="ts" x="852" y="276" text-anchor="end" font-size="10.5">栅极下拉</text>
+      <path class="wire" stroke="#9aa7b4" d="M915 260 V282"/>
+      <path class="wire" stroke="#9aa7b4" d="M915 282 V286"/>
+<line x1="902" y1="286" x2="928" y2="286" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="906" y1="291" x2="924" y2="291" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="910" y1="296" x2="920" y2="296" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="922" y="276">S 源极</text>
+    </g>
+    <g id="drain1" class="net" data-net="D1">
+      <path class="wire" stroke="#f783ac" d="M915 180 V162 H1160"/>
+      <circle cx="1080" cy="162" r="4" fill="#f783ac"/>
+      <text x="896" y="148" style="fill:#f783ac" font-size="12.5" font-weight="700">D 漏极</text>
+      <text x="996" y="148" style="fill:#f783ac" font-size="12">DRAIN1 = 灯带负极</text>
+    </g>
+    <g id="cap1" class="net" data-net="D1">
+      <path class="wire" stroke="#f783ac" d="M1080 162 V186"/>
+      <line x1="1062" y1="186" x2="1098" y2="186" stroke="#f783ac" stroke-width="3"/>
+      <line x1="1062" y1="206" x2="1098" y2="206" stroke="#f783ac" stroke-width="3"/>
+      <path class="wire" stroke="#f783ac" d="M1080 206 V242"/>
+      <text x="1056" y="200" text-anchor="end" style="fill:#e8f0f8" font-size="12" font-weight="700">100nF</text>
+    </g>
+    <g id="v121" class="net" data-net="12V">
+      <path class="wire" stroke="#ff6b6b" d="M1080 242 H1160"/>
+      <circle cx="1080" cy="242" r="3.6" fill="#ff6b6b"/>
+      <text x="1122" y="236" style="fill:#ff6b6b" font-size="12.5" font-weight="700">12V</text>
+    </g>
+    <g id="led1" class="net" data-net="D1">
+      <line class="term" x1="1160" y1="162" x2="1180" y2="162"/><circle cx="1160" cy="162" r="3" fill="#33465c"/>
+      <line class="term" x1="1160" y1="242" x2="1180" y2="242"/><circle cx="1160" cy="242" r="3" fill="#33465c"/>
+      <rect class="body" x="1180" y="148" width="78" height="108" rx="4"/>
+      <text class="ts" x="1219" y="174" text-anchor="middle" font-size="12" font-weight="700">J1</text>
+      <text class="ts" x="1219" y="190" text-anchor="middle" font-size="10.5">灯带座</text>
+      <text x="1266" y="166" style="fill:#f783ac" font-size="11.5">1脚 LED−</text>
+      <text x="1266" y="250" style="fill:#ff6b6b" font-size="11.5">2脚 LED+</text>
+      <text x="1266" y="264" style="fill:#7b8a9c" font-size="10.5">= 12V</text>
+      <text x="1096" y="278" style="fill:#f7a8c8" font-size="11">100nF 跨接在灯带两端</text>
+    </g>
+  </g>
+
+  <g id="ch2">
+    <g id="adc2" class="net" data-net="ADC2">
+      <rect class="body" x="150" y="376" width="26" height="48"/>
+      <line class="term" x1="163" y1="376" x2="163" y2="354"/><circle cx="163" cy="354" r="3" fill="#33465c"/>
+      <text x="163" y="344" text-anchor="middle" style="fill:#7fb3e8" font-size="12" font-weight="700">3V3</text>
+      <line class="term" x1="163" y1="424" x2="163" y2="446"/><circle cx="163" cy="446" r="3" fill="#33465c"/>
+      <line class="term" x1="204" y1="400" x2="176" y2="400"/><circle cx="204" cy="400" r="3" fill="#33465c"/>
+      <path d="M188 392 L176 400 L188 408 Z" fill="none" stroke="#8ea6bd" stroke-width="1.6"/>
+      <text class="ts" x="196" y="342">P2 10kΩ 线性</text>
+      <path class="wire" stroke="#4dabf7" d="M204 400 H430"/>
+      <path class="wire" stroke="#4dabf7" d="M410 400 V416"/>
+      <line class="term" x1="400" y1="416" x2="420" y2="416"/>
+      <line class="term" x1="400" y1="430" x2="420" y2="430"/>
+      <path class="wire" stroke="#4dabf7" d="M410 430 V446"/>
+      <text class="ts" x="424" y="428">100nF</text>
+    </g>
+    <g id="gnd2a" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M163 446 V460"/>
+      <path class="wire" stroke="#9aa7b4" d="M163 460 V464"/>
+<line x1="150" y1="464" x2="176" y2="464" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="154" y1="469" x2="172" y2="469" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="158" y1="474" x2="168" y2="474" stroke="#9aa7b4" stroke-width="2.2"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 446 V460"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 460 V464"/>
+<line x1="397" y1="464" x2="423" y2="464" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="401" y1="469" x2="419" y2="469" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="405" y1="474" x2="415" y2="474" stroke="#9aa7b4" stroke-width="2.2"/>
+    </g>
+    <g id="pwm2" class="net" data-net="PWM2">
+      <path class="wire" stroke="#38d9a9" d="M752 400 H790"/>
+      <rect class="body" x="790" y="388" width="64" height="24"/>
+      <text class="ts" x="822" y="380" text-anchor="middle">220Ω</text>
+      <path class="wire" stroke="#38d9a9" d="M854 400 H880"/>
+      <circle cx="867" cy="400" r="4" fill="#38d9a9"/>
+    </g>
+    <g id="fet2" class="net" data-net="PWM2">
+      <rect class="body" x="880" y="360" width="70" height="80" rx="3"/>
+      <text class="ts" x="915" y="386" text-anchor="middle" font-size="10.5">Q2</text>
+      <text class="ts" x="915" y="398" text-anchor="middle" font-size="8.5">IRLZ44N</text>
+      <text class="ts" x="874" y="392" style="fill:#38d9a9" font-size="11">G</text>
+    </g>
+    <g id="gnd2b" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M867 400 V424"/>
+      <rect class="body" x="858" y="424" width="18" height="40"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 464 V478"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 478 V482"/>
+<line x1="854" y1="482" x2="880" y2="482" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="858" y1="487" x2="876" y2="487" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="862" y1="492" x2="872" y2="492" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="852" y="442" text-anchor="end">100kΩ</text>
+      <text class="ts" x="852" y="456" text-anchor="end" font-size="10.5">栅极下拉</text>
+      <path class="wire" stroke="#9aa7b4" d="M915 440 V462"/>
+      <path class="wire" stroke="#9aa7b4" d="M915 462 V466"/>
+<line x1="902" y1="466" x2="928" y2="466" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="906" y1="471" x2="924" y2="471" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="910" y1="476" x2="920" y2="476" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="922" y="456">S 源极</text>
+    </g>
+    <g id="drain2" class="net" data-net="D2">
+      <path class="wire" stroke="#f783ac" d="M915 360 V342 H1160"/>
+      <circle cx="1080" cy="342" r="4" fill="#f783ac"/>
+      <text x="896" y="328" style="fill:#f783ac" font-size="12.5" font-weight="700">D 漏极</text>
+      <text x="996" y="328" style="fill:#f783ac" font-size="12">DRAIN2 = 灯带负极</text>
+    </g>
+    <g id="cap2" class="net" data-net="D2">
+      <path class="wire" stroke="#f783ac" d="M1080 342 V366"/>
+      <line x1="1062" y1="366" x2="1098" y2="366" stroke="#f783ac" stroke-width="3"/>
+      <line x1="1062" y1="386" x2="1098" y2="386" stroke="#f783ac" stroke-width="3"/>
+      <path class="wire" stroke="#f783ac" d="M1080 386 V422"/>
+      <text x="1056" y="380" text-anchor="end" style="fill:#e8f0f8" font-size="12" font-weight="700">100nF</text>
+    </g>
+    <g id="v122" class="net" data-net="12V">
+      <path class="wire" stroke="#ff6b6b" d="M1080 422 H1160"/>
+      <circle cx="1080" cy="422" r="3.6" fill="#ff6b6b"/>
+      <text x="1122" y="416" style="fill:#ff6b6b" font-size="12.5" font-weight="700">12V</text>
+    </g>
+    <g id="led2" class="net" data-net="D2">
+      <line class="term" x1="1160" y1="342" x2="1180" y2="342"/><circle cx="1160" cy="342" r="3" fill="#33465c"/>
+      <line class="term" x1="1160" y1="422" x2="1180" y2="422"/><circle cx="1160" cy="422" r="3" fill="#33465c"/>
+      <rect class="body" x="1180" y="328" width="78" height="108" rx="4"/>
+      <text class="ts" x="1219" y="354" text-anchor="middle" font-size="12" font-weight="700">J2</text>
+      <text class="ts" x="1219" y="370" text-anchor="middle" font-size="10.5">灯带座</text>
+      <text x="1266" y="346" style="fill:#f783ac" font-size="11.5">1脚 LED−</text>
+      <text x="1266" y="430" style="fill:#ff6b6b" font-size="11.5">2脚 LED+</text>
+      <text x="1266" y="444" style="fill:#7b8a9c" font-size="10.5">= 12V</text>
+      <text x="1096" y="458" style="fill:#f7a8c8" font-size="11">100nF 跨接在灯带两端</text>
+    </g>
+  </g>
+
+  <g id="ch3">
+    <g id="adc3" class="net" data-net="ADC3">
+      <rect class="body" x="150" y="556" width="26" height="48"/>
+      <line class="term" x1="163" y1="556" x2="163" y2="534"/><circle cx="163" cy="534" r="3" fill="#33465c"/>
+      <text x="163" y="524" text-anchor="middle" style="fill:#7fb3e8" font-size="12" font-weight="700">3V3</text>
+      <line class="term" x1="163" y1="604" x2="163" y2="626"/><circle cx="163" cy="626" r="3" fill="#33465c"/>
+      <line class="term" x1="204" y1="580" x2="176" y2="580"/><circle cx="204" cy="580" r="3" fill="#33465c"/>
+      <path d="M188 572 L176 580 L188 588 Z" fill="none" stroke="#8ea6bd" stroke-width="1.6"/>
+      <text class="ts" x="196" y="522">P3 10kΩ 线性</text>
+      <path class="wire" stroke="#4dabf7" d="M204 580 H430"/>
+      <path class="wire" stroke="#4dabf7" d="M410 580 V596"/>
+      <line class="term" x1="400" y1="596" x2="420" y2="596"/>
+      <line class="term" x1="400" y1="610" x2="420" y2="610"/>
+      <path class="wire" stroke="#4dabf7" d="M410 610 V626"/>
+      <text class="ts" x="424" y="608">100nF</text>
+    </g>
+    <g id="gnd3a" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M163 626 V640"/>
+      <path class="wire" stroke="#9aa7b4" d="M163 640 V644"/>
+<line x1="150" y1="644" x2="176" y2="644" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="154" y1="649" x2="172" y2="649" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="158" y1="654" x2="168" y2="654" stroke="#9aa7b4" stroke-width="2.2"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 626 V640"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 640 V644"/>
+<line x1="397" y1="644" x2="423" y2="644" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="401" y1="649" x2="419" y2="649" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="405" y1="654" x2="415" y2="654" stroke="#9aa7b4" stroke-width="2.2"/>
+    </g>
+    <g id="pwm3" class="net" data-net="PWM3">
+      <path class="wire" stroke="#38d9a9" d="M752 580 H790"/>
+      <rect class="body" x="790" y="568" width="64" height="24"/>
+      <text class="ts" x="822" y="560" text-anchor="middle">220Ω</text>
+      <path class="wire" stroke="#38d9a9" d="M854 580 H880"/>
+      <circle cx="867" cy="580" r="4" fill="#38d9a9"/>
+    </g>
+    <g id="fet3" class="net" data-net="PWM3">
+      <rect class="body" x="880" y="540" width="70" height="80" rx="3"/>
+      <text class="ts" x="915" y="566" text-anchor="middle" font-size="10.5">Q3</text>
+      <text class="ts" x="915" y="578" text-anchor="middle" font-size="8.5">IRLZ44N</text>
+      <text class="ts" x="874" y="572" style="fill:#38d9a9" font-size="11">G</text>
+    </g>
+    <g id="gnd3b" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M867 580 V604"/>
+      <rect class="body" x="858" y="604" width="18" height="40"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 644 V658"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 658 V662"/>
+<line x1="854" y1="662" x2="880" y2="662" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="858" y1="667" x2="876" y2="667" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="862" y1="672" x2="872" y2="672" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="852" y="622" text-anchor="end">100kΩ</text>
+      <text class="ts" x="852" y="636" text-anchor="end" font-size="10.5">栅极下拉</text>
+      <path class="wire" stroke="#9aa7b4" d="M915 620 V642"/>
+      <path class="wire" stroke="#9aa7b4" d="M915 642 V646"/>
+<line x1="902" y1="646" x2="928" y2="646" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="906" y1="651" x2="924" y2="651" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="910" y1="656" x2="920" y2="656" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="922" y="636">S 源极</text>
+    </g>
+    <g id="drain3" class="net" data-net="D3">
+      <path class="wire" stroke="#f783ac" d="M915 540 V522 H1160"/>
+      <circle cx="1080" cy="522" r="4" fill="#f783ac"/>
+      <text x="896" y="508" style="fill:#f783ac" font-size="12.5" font-weight="700">D 漏极</text>
+      <text x="996" y="508" style="fill:#f783ac" font-size="12">DRAIN3 = 灯带负极</text>
+    </g>
+    <g id="cap3" class="net" data-net="D3">
+      <path class="wire" stroke="#f783ac" d="M1080 522 V546"/>
+      <line x1="1062" y1="546" x2="1098" y2="546" stroke="#f783ac" stroke-width="3"/>
+      <line x1="1062" y1="566" x2="1098" y2="566" stroke="#f783ac" stroke-width="3"/>
+      <path class="wire" stroke="#f783ac" d="M1080 566 V602"/>
+      <text x="1056" y="560" text-anchor="end" style="fill:#e8f0f8" font-size="12" font-weight="700">100nF</text>
+    </g>
+    <g id="v123" class="net" data-net="12V">
+      <path class="wire" stroke="#ff6b6b" d="M1080 602 H1160"/>
+      <circle cx="1080" cy="602" r="3.6" fill="#ff6b6b"/>
+      <text x="1122" y="596" style="fill:#ff6b6b" font-size="12.5" font-weight="700">12V</text>
+    </g>
+    <g id="led3" class="net" data-net="D3">
+      <line class="term" x1="1160" y1="522" x2="1180" y2="522"/><circle cx="1160" cy="522" r="3" fill="#33465c"/>
+      <line class="term" x1="1160" y1="602" x2="1180" y2="602"/><circle cx="1160" cy="602" r="3" fill="#33465c"/>
+      <rect class="body" x="1180" y="508" width="78" height="108" rx="4"/>
+      <text class="ts" x="1219" y="534" text-anchor="middle" font-size="12" font-weight="700">J3</text>
+      <text class="ts" x="1219" y="550" text-anchor="middle" font-size="10.5">灯带座</text>
+      <text x="1266" y="526" style="fill:#f783ac" font-size="11.5">1脚 LED−</text>
+      <text x="1266" y="610" style="fill:#ff6b6b" font-size="11.5">2脚 LED+</text>
+      <text x="1266" y="624" style="fill:#7b8a9c" font-size="10.5">= 12V</text>
+      <text x="1096" y="638" style="fill:#f7a8c8" font-size="11">100nF 跨接在灯带两端</text>
+    </g>
+  </g>
+
+  <g id="ch4">
+    <g id="adc4" class="net" data-net="ADC4">
+      <rect class="body" x="150" y="736" width="26" height="48"/>
+      <line class="term" x1="163" y1="736" x2="163" y2="714"/><circle cx="163" cy="714" r="3" fill="#33465c"/>
+      <text x="163" y="704" text-anchor="middle" style="fill:#7fb3e8" font-size="12" font-weight="700">3V3</text>
+      <line class="term" x1="163" y1="784" x2="163" y2="806"/><circle cx="163" cy="806" r="3" fill="#33465c"/>
+      <line class="term" x1="204" y1="760" x2="176" y2="760"/><circle cx="204" cy="760" r="3" fill="#33465c"/>
+      <path d="M188 752 L176 760 L188 768 Z" fill="none" stroke="#8ea6bd" stroke-width="1.6"/>
+      <text class="ts" x="196" y="702">P4 10kΩ 线性</text>
+      <path class="wire" stroke="#4dabf7" d="M204 760 H430"/>
+      <path class="wire" stroke="#4dabf7" d="M410 760 V776"/>
+      <line class="term" x1="400" y1="776" x2="420" y2="776"/>
+      <line class="term" x1="400" y1="790" x2="420" y2="790"/>
+      <path class="wire" stroke="#4dabf7" d="M410 790 V806"/>
+      <text class="ts" x="424" y="788">100nF</text>
+    </g>
+    <g id="gnd4a" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M163 806 V820"/>
+      <path class="wire" stroke="#9aa7b4" d="M163 820 V824"/>
+<line x1="150" y1="824" x2="176" y2="824" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="154" y1="829" x2="172" y2="829" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="158" y1="834" x2="168" y2="834" stroke="#9aa7b4" stroke-width="2.2"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 806 V820"/>
+      <path class="wire" stroke="#9aa7b4" d="M410 820 V824"/>
+<line x1="397" y1="824" x2="423" y2="824" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="401" y1="829" x2="419" y2="829" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="405" y1="834" x2="415" y2="834" stroke="#9aa7b4" stroke-width="2.2"/>
+    </g>
+    <g id="pwm4" class="net" data-net="PWM4">
+      <path class="wire" stroke="#38d9a9" d="M752 760 H790"/>
+      <rect class="body" x="790" y="748" width="64" height="24"/>
+      <text class="ts" x="822" y="740" text-anchor="middle">220Ω</text>
+      <path class="wire" stroke="#38d9a9" d="M854 760 H880"/>
+      <circle cx="867" cy="760" r="4" fill="#38d9a9"/>
+    </g>
+    <g id="fet4" class="net" data-net="PWM4">
+      <rect class="body" x="880" y="720" width="70" height="80" rx="3"/>
+      <text class="ts" x="915" y="746" text-anchor="middle" font-size="10.5">Q4</text>
+      <text class="ts" x="915" y="758" text-anchor="middle" font-size="8.5">IRLZ44N</text>
+      <text class="ts" x="874" y="752" style="fill:#38d9a9" font-size="11">G</text>
+    </g>
+    <g id="gnd4b" class="net" data-net="GND">
+      <path class="wire" stroke="#9aa7b4" d="M867 760 V784"/>
+      <rect class="body" x="858" y="784" width="18" height="40"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 824 V838"/>
+      <path class="wire" stroke="#9aa7b4" d="M867 838 V842"/>
+<line x1="854" y1="842" x2="880" y2="842" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="858" y1="847" x2="876" y2="847" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="862" y1="852" x2="872" y2="852" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="852" y="802" text-anchor="end">100kΩ</text>
+      <text class="ts" x="852" y="816" text-anchor="end" font-size="10.5">栅极下拉</text>
+      <path class="wire" stroke="#9aa7b4" d="M915 800 V822"/>
+      <path class="wire" stroke="#9aa7b4" d="M915 822 V826"/>
+<line x1="902" y1="826" x2="928" y2="826" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="906" y1="831" x2="924" y2="831" stroke="#9aa7b4" stroke-width="2.2"/>
+<line x1="910" y1="836" x2="920" y2="836" stroke="#9aa7b4" stroke-width="2.2"/>
+      <text class="ts" x="922" y="816">S 源极</text>
+    </g>
+    <g id="drain4" class="net" data-net="D4">
+      <path class="wire" stroke="#f783ac" d="M915 720 V702 H1160"/>
+      <circle cx="1080" cy="702" r="4" fill="#f783ac"/>
+      <text x="896" y="688" style="fill:#f783ac" font-size="12.5" font-weight="700">D 漏极</text>
+      <text x="996" y="688" style="fill:#f783ac" font-size="12">DRAIN4 = 灯带负极</text>
+    </g>
+    <g id="cap4" class="net" data-net="D4">
+      <path class="wire" stroke="#f783ac" d="M1080 702 V726"/>
+      <line x1="1062" y1="726" x2="1098" y2="726" stroke="#f783ac" stroke-width="3"/>
+      <line x1="1062" y1="746" x2="1098" y2="746" stroke="#f783ac" stroke-width="3"/>
+      <path class="wire" stroke="#f783ac" d="M1080 746 V782"/>
+      <text x="1056" y="740" text-anchor="end" style="fill:#e8f0f8" font-size="12" font-weight="700">100nF</text>
+    </g>
+    <g id="v124" class="net" data-net="12V">
+      <path class="wire" stroke="#ff6b6b" d="M1080 782 H1160"/>
+      <circle cx="1080" cy="782" r="3.6" fill="#ff6b6b"/>
+      <text x="1122" y="776" style="fill:#ff6b6b" font-size="12.5" font-weight="700">12V</text>
+    </g>
+    <g id="led4" class="net" data-net="D4">
+      <line class="term" x1="1160" y1="702" x2="1180" y2="702"/><circle cx="1160" cy="702" r="3" fill="#33465c"/>
+      <line class="term" x1="1160" y1="782" x2="1180" y2="782"/><circle cx="1160" cy="782" r="3" fill="#33465c"/>
+      <rect class="body" x="1180" y="688" width="78" height="108" rx="4"/>
+      <text class="ts" x="1219" y="714" text-anchor="middle" font-size="12" font-weight="700">J4</text>
+      <text class="ts" x="1219" y="730" text-anchor="middle" font-size="10.5">灯带座</text>
+      <text x="1266" y="706" style="fill:#f783ac" font-size="11.5">1脚 LED−</text>
+      <text x="1266" y="790" style="fill:#ff6b6b" font-size="11.5">2脚 LED+</text>
+      <text x="1266" y="804" style="fill:#7b8a9c" font-size="10.5">= 12V</text>
+      <text x="1096" y="818" style="fill:#f7a8c8" font-size="11">100nF 跨接在灯带两端</text>
+    </g>
+  </g></svg>
+  </div>
+</div>
+
+<div class="card">
+  <h2>⓪ 输出级三个关系（看不懂这张图就看这里）</h2>
+  <div class="ok" style="margin:0 0 10px">
+    整路功率级只围绕<b>两个节点</b>：<b>节点 A = 12V</b>、<b>节点 B = 灯带负极 = MOSFET 漏极</b>。<br>
+    · 灯带 <b>2 脚（正）</b> → 节点 A（12V）<br>
+    · 灯带 <b>1 脚（负）</b> → 节点 B（和 MOSFET 漏极是同一个点）<br>
+    · 100 nF 电容：一只脚 → 节点 A，另一只脚 → 节点 B（= 跨接在灯带两端）<br>
+    · MOSFET 源极 → 地；栅极 → PWM（经 220Ω），并有 100kΩ 下拉到地
+  </div>
+  <p style="color:#7b8a9c;font-size:13px;margin:0">
+    单独放大、带标注的大图见：<a href="output-stage.html" style="color:#9fd3ff">docs/output-stage.html</a>
+  </p>
+</div>
+
+<div class="card">
+  <h2>① 逐路接线清单（按实物说，不用位号）</h2>
+  <table>
+    <thead><tr><th style="width:46px">#</th><th style="width:250px">元件</th><th>接法</th><th style="width:120px">网络</th></tr></thead>
+    <tbody>
+      <tr data-net="ADC1"><td>1</td><td><span class="sw" style="background:#4dabf7"></span>10 kΩ 线性电位器</td>
+          <td><b>上端</b> → 开发板 <b>3V3</b>；<b>下端</b> → 地；<b>电刷（中间脚 / 箭头）</b> → 该路 ADC 引脚</td><td>3V3 / GND / ADC</td></tr>
+      <tr data-net="ADC1"><td>2</td><td><span class="sw" style="background:#4dabf7"></span>100 nF 陶瓷（ADC 滤波）</td>
+          <td>一端 → 该路 <b>ADC 引脚</b>，另一端 → 地（<b>尽量靠近芯片引脚</b>）</td><td>ADC / GND</td></tr>
+      <tr data-net="PWM1"><td>3</td><td><span class="sw" style="background:#38d9a9"></span>220 Ω 电阻</td>
+          <td>一端 → 该路 <b>PWM 引脚</b>，另一端 → MOSFET <b>栅极 G</b></td><td>PWM / GATE</td></tr>
+      <tr data-net="PWM1"><td>4</td><td><span class="sw" style="background:#38d9a9"></span>100 kΩ 固定电阻</td>
+          <td>一端 → MOSFET <b>栅极</b>，另一端 → 地（栅极下拉，<b>必须有</b>）</td><td>GATE / GND</td></tr>
+      <tr data-net="D1"><td>5</td><td><span class="sw" style="background:#f783ac"></span>IRLZ44N MOSFET</td>
+          <td><b>栅极 G</b>接上面节点；<b>漏极 D</b> → 灯带负极；<b>源极 S</b> → 地</td><td>GATE / DRAIN / GND</td></tr>
+      <tr data-net="D1"><td>6</td><td><span class="sw" style="background:#f783ac"></span>灯带两芯座</td>
+          <td><b>1 脚（−）</b> → MOSFET 漏极；<b>2 脚（+）</b> → 12 V</td><td>DRAIN / 12V</td></tr>
+      <tr data-net="12V"><td>7</td><td><span class="sw" style="background:#ff6b6b"></span>100 nF 陶瓷（跨灯带）</td>
+          <td>一端 → 灯带负极（漏极），另一端 → 灯带正极（12 V），<b>跨接在灯带两端</b></td><td>DRAIN / 12V</td></tr>
+      <tr data-net="12V"><td>8</td><td><span class="sw" style="background:#ff6b6b"></span>470 µF 电解（公共）</td>
+          <td>正极 → 12 V，负极 → 地（<b>注意极性</b>），尽量靠近灯带接口</td><td>12V / GND</td></tr>
+      <tr data-net="GND"><td>9</td><td><span class="sw" style="background:#9aa7b4"></span>开发板 GND 与 12 V 地</td>
+          <td><b>必须用一根线把开发板的 GND 和 12 V 的 GND 连起来</b>（共地），否则 PWM 没有参考电平</td><td>GND</td></tr>
+    </tbody>
+  </table>
+  <div class="tip"><b>三个必须注意：</b>① 开发板 <b>5V 引脚绝对不能接 12V</b>（板载 LDO 最高 6.5 V，会烧）；② 栅极 100 kΩ 下拉不能省，否则 ESP32 复位 / 烧录时灯带会乱闪；③ 电位器要买 <b>线性(B) 型</b>，软件做 gamma 校正，<b>不要买对数型</b>。</div>
+</div>
+
+<div class="card">
+  <h2>② 引脚分配表</h2>
+  <table>
+    <thead><tr><th>功能</th><th>通道 1</th><th>通道 2</th><th>通道 3</th><th>通道 4</th></tr></thead>
+    <tbody>
+      <tr data-net="ADC1"><td>电位器 → ADC</td><td><b>IO0</b> (ADC1_CH0)</td><td><b>IO1</b> (ADC1_CH1)</td><td><b>IO3</b> (ADC1_CH3)</td><td><b>IO4</b> (ADC1_CH4)</td></tr>
+      <tr data-net="PWM1"><td>PWM → 栅极</td><td><b>IO5</b></td><td><b>IO6</b></td><td><b>IO7</b></td><td><b>IO10</b></td></tr>
+      <tr data-net="D1"><td>灯带负极</td><td>DRAIN1</td><td>DRAIN2</td><td>DRAIN3</td><td>DRAIN4</td></tr>
+    </tbody>
+  </table>
+  <div class="ok"><b>为什么避开 IO2？</b> ESP32-C3 的 <b>GPIO2 / GPIO8 / GPIO9 是启动模式（strapping）引脚</b>，复位瞬间的电平决定芯片是正常启动还是进下载模式。接了外部电路可能导致<b>烧不进程序</b>。所以 IO2 不用、IO8 是板载 LED、IO9 是 BOOT 按钮，全部避开。</div>
+  <h3>其余引脚怎么用</h3>
+  <table>
+    <thead><tr><th>引脚</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>IO20 / IO21</td><td>UART0（RX/TX），<b>留给串口调试 / 烧录</b>，别占用</td></tr>
+      <tr><td>IO8</td><td>板载蓝色 LED（低电平点亮），<b>不要接外部电路</b></td></tr>
+      <tr><td>IO9</td><td>BOOT 按钮，<b>不要接外部电路</b></td></tr>
+      <tr><td>IO2</td><td>只有实在不够用时才用，且<b>只接输出</b>（接栅极），不要接电位器</td></tr>
+      <tr><td>IO6 / IO7</td><td>默认是 JTAG 功能，不开 JTAG 就能当普通 GPIO 用</td></tr>
+      <tr><td>3V3 引脚</td><td>给 4 个电位器供电（4 × 0.33 mA = 1.3 mA，随便带）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card grid">
+  <div>
+    <h2>③ 固件（ESP32-C3 / Arduino 框架）</h2>
+<pre><code>#include &lt;Arduino.h&gt;
+
+const int POT[4] = {0, 1, 3, 4};      // IO0 IO1 IO3 IO4  (ADC1)
+const int PWM[4] = {5, 6, 7, 10};     // IO5 IO6 IO7 IO10 (LEDC)
+const int RES  = 4095;                // 12 bit
+const float FREQ = 4000.0;            // 恒定 4 kHz
+
+float ema[4];
+int  calMin[4] = {0,0,0,0};
+int  calMax[4] = {4095,4095,4095,4095};
+bool inited = false;
+
+void setup(){
+  analogReadResolution(12);
+  analogSetAttenuation(ADC_11db);        // 0~3.3V 量程
+  for(int i=0;i&lt;4;i++){ ledcSetup(PWM[i], FREQ, 12); ledcAttachPin(PWM[i], PWM[i]); }
+}
+
+void loop(){
+  for(int i=0;i&lt;4;i++){
+    int raw = analogRead(POT[i]);
+    ema[i] = inited ? ema[i]*0.75f + raw*0.25f : raw;   // 一阶低通
+    float x = (ema[i]-calMin[i]) / (float)(calMax[i]-calMin[i]);
+    x = constrain(x, 0.0f, 1.0f);
+    float duty = powf(x, 2.2f);                          // gamma 校正
+    ledcWrite(PWM[i], (uint32_t)(duty*RES));
+  }
+  inited = true;
+}</code></pre>
+    <p class="kv"><b>标定：</b>首次上电把 4 个旋钮分别转到最小 / 最大，把读到的 raw 写进
+      <code>calMin[]</code> / <code>calMax[]</code>（存 NVS 更好），即可消掉 ESP32 ADC 的非线性与电位器个体差异。</p>
+    <p class="kv"><b>想加无线：</b>ESP32-C3 自带 WiFi/BLE，做个网页或手机 App 改 <code>calMax[]</code> 和亮度即可，不用改硬件。</p>
+  </div>
+  <div>
+    <h2>④ 关键参数</h2>
+    <table>
+      <thead><tr><th>项目</th><th>数值</th></tr></thead>
+      <tbody>
+        <tr><td>PWM 频率</td><td>4 kHz 恒定（想彻底消除可闻声就改 16~20 kHz）</td></tr>
+        <tr><td>PWM 分辨率</td><td>12 bit（4096 级）</td></tr>
+        <tr><td>亮度曲线</td><td>软件 gamma 2.2，<b>旋钮手感线性</b></td></tr>
+        <tr><td>单路电流</td><td>0.83 A（10 W ÷ 12 V）</td></tr>
+        <tr><td>4 路总电流</td><td>3.33 A → 电源建议 12 V / 5 A</td></tr>
+        <tr><td>MOSFET 损耗</td><td>0.83² × 0.09 Ω ≈ <b>62 mW</b>，不需散热片</td></tr>
+        <tr><td>电位器</td><td>10 kΩ <b>线性(B)</b> 型；1 kΩ / 2.2 kΩ 也行</td></tr>
+        <tr><td>开发板供电</td><td>USB-C 5 V（<b>严禁接 12 V</b>）</td></tr>
+      </tbody>
+    </table>
+    <h3>⑤ BOM（4 路合计）</h3>
+    <table>
+      <thead><tr><th>数量</th><th>器件</th></tr></thead>
+      <tbody>
+        <tr><td>×1</td><td>ESP32-C3-SuperMini 开发板</td></tr>
+        <tr><td>×1</td><td>12 V / 5 A 适配器</td></tr>
+        <tr><td>×1</td><td>3 A 保险丝 + 保险丝座</td></tr>
+        <tr><td>×1</td><td>470 µF/25 V 电解电容</td></tr>
+        <tr><td>×1</td><td>输入 2P 端子</td></tr>
+        <tr><td>×4</td><td>10 kΩ 线性电位器（面板）</td></tr>
+        <tr><td>×4</td><td>100 nF 陶瓷（ADC 滤波）</td></tr>
+        <tr><td>×4</td><td>100 nF 陶瓷（跨灯带）</td></tr>
+        <tr><td>×4</td><td>220 Ω 电阻（栅极串联）</td></tr>
+        <tr><td>×4</td><td>100 kΩ 电阻（栅极下拉）</td></tr>
+        <tr><td>×4</td><td>IRLZ44N（TO-220）</td></tr>
+        <tr><td>×4</td><td>XH2.54-2P 灯带座</td></tr>
+      </tbody>
+    </table>
+    <div class="ok">比 555 版本少 8 颗芯片 / 二极管 / 定时网络元件，而且 <b>4 路完全一致</b>、亮度可真正到 0%，还能用手机调光。</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>⑥ 上电自检</h2>
+  <table>
+    <thead><tr><th style="width:280px">步骤</th><th>现象 / 判据</th></tr></thead>
+    <tbody>
+      <tr><td>1. 只插 USB，不接 12 V</td><td>板载蓝色 LED 闪烁 = 固件正常</td></tr>
+      <tr><td>2. 万用表量引脚</td><td>IO0 / IO1 / IO3 / IO4 电压随旋钮在 0~3.3 V 平滑变化</td></tr>
+      <tr><td>3. 量 PWM 引脚</td><td>IO5 / IO6 / IO7 / IO10 应是 <b>0~3.3 V 的方波</b>（有示波器最直观；没有就用一颗 LED 搭个负载看）</td></tr>
+      <tr data-net="GND"><td>4. <b>接 12 V 前，先确认共地</b></td><td>万用表测开发板 GND 与 12 V 负极之间电阻应为 0 Ω</td></tr>
+      <tr data-net="D1"><td>5. 接上灯带</td><td>灯带随旋钮平滑变暗变亮，<b>最低能完全熄灭</b></td></tr>
+      <tr><td>6. 测灯带电流</td><td>0 ~ 0.83 A 随旋钮变化</td></tr>
+    </tbody>
+  </table>
+  <div class="tip"><b>如果灯带完全不亮：</b>① 查 MOSFET 栅极有没有 3.3 V 方波；② 查漏源是否接反；③ 查共地；④ 确认灯带正极接的是 12 V 而不是 DRAIN。</div>
+</div>
+
+</main>
+<script>
+const NETS=[["12V","#ff6b6b"],["GND","#9aa7b4"],["ADC1","#4dabf7"],["PWM1","#38d9a9"],["D1","#f783ac"],
+["ADC2","#4dabf7"],["PWM2","#38d9a9"],["D2","#f783ac"],
+["ADC3","#4dabf7"],["PWM3","#38d9a9"],["D3","#f783ac"],
+["ADC4","#4dabf7"],["PWM4","#38d9a9"],["D4","#f783ac"]];
+document.getElementById('legend').innerHTML=NETS.map(([n,c])=>
+ '<span><i class="sw" style="background:'+c+'"></i>'+n+'</span>').join("");
+const svg=document.getElementById('sch');
+document.querySelectorAll('[data-net]').forEach(el=>{
+  const n=el.getAttribute('data-net');
+  if(el.tagName.toLowerCase()==='g') el.classList.add('net');
+  const on=()=>{svg.classList.add('hl-on');
+    document.querySelectorAll('#sch .net').forEach(g=>{
+      if(g.getAttribute('data-net')===n) g.classList.add('on');});};
+  const off=()=>{svg.classList.remove('hl-on');
+    document.querySelectorAll('#sch .net.on').forEach(g=>g.classList.remove('on'));};
+  el.addEventListener('mouseenter',on);
+  el.addEventListener('mouseleave',off);
+});
+</script>
+</body>
+</html>
